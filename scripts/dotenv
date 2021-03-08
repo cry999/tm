@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+
+def main() -> None:
+    dotenv = sys.argv[0]
+
+    if len(sys.argv) < 2:
+        print(f"USAGE {dotenv} .env [command]")
+        sys.exit(1)
+
+    envfile = sys.argv[1]
+    env = os.environ.copy()
+    with open(envfile, "r") as f:
+        for lineno, line in enumerate(f.readlines()):
+            if "=" not in line:
+                print(f"{envfile}:{lineno}: invalid line: must be <key>=<value>")
+                sys.exit(1)
+            key, val = line.split("=", 2)
+
+            val = val.strip("\r\n")
+            if val.startswith('"'):
+                val = val.strip('"')
+            elif val.startswith("'"):
+                val = val.strip("'")
+            env[key] = val
+
+    subprocess.run(sys.argv[2:], env=env)
+
+
+if __name__ == "__main__":
+    main()

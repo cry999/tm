@@ -1,0 +1,27 @@
+{
+    "go.inferGopath": false,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "*.lock": true,
+    },
+    "terminal.integrated.fontFamily": "",
+    "files.associations": {
+        "setup.cfg": "ini",
+    },
+    "python.pythonPath": "/Users/takeharakenta/Library/Caches/pypoetry/virtualenvs/task-Tbmljvbd-py3.8/bin/python",
+    "python.linting.mypyArgs": [
+        "--ignore-missing-imports",
+        "--follow-imports=silent",
+        "--show-column-numbers",
+        "--config-file=setup.cfg",
+    ],
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+}

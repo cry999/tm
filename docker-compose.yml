@@ -1,0 +1,17 @@
+version: '3.8'
+
+x-mysql-setting: &mysql-setting
+  MYSQL_USER: 'tm-user'
+  MYSQL_PASSWORD: 'P@ssw0rd'
+  MYSQL_DATABASE: 'tm'
+
+services:
+  db.tasks.tm:
+    build:
+      context: ./docker/mysql
+    environment:
+      <<: *mysql-setting
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    ports:
+      - '3306:3306'
+      - '33060:33060'
