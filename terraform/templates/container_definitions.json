@@ -1,0 +1,68 @@
+[
+    {
+        "name": "nginx",
+        "image": "${imageUrl}/nginx:${version}",
+        "memory": 128,
+        "portMappings": [
+            {
+                "containerPort": 80,
+                "protocol": "tcp"
+            }
+        ],
+        "environment": [
+            {
+                "name": "APP_HOST",
+                "value": "localhost"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-region": "${region}",
+                "awslogs-group": "${loggroup}",
+                "awslogs-stream-prefix": "${streamPrefix}"
+            }
+        }
+    },
+    {
+        "name": "django",
+        "image": "${imageUrl}/django:${version}",
+        "memory": 128,
+        "environment": [
+            {
+                "name": "MYSQL_DATABASE",
+                "value": "tm"
+            },
+            {
+                "name": "MYSQL_HOST",
+                "value": "${mysql_host}"
+            },
+            {
+                "name": "MYSQL_PORT",
+                "value": "${mysql_port}"
+            }
+        ],
+        "secrets": [
+            {
+                "name": "MYSQL_USER",
+                "valueFrom": "${prefix}/mysql/root_user"
+            },
+            {
+                "name": "MYSQL_PASSWORD",
+                "valueFrom": "${prefix}/mysql/root_pass"
+            },
+            {
+                "name": "DJANGO_SECRET_KEY",
+                "valueFrom": "${prefix}/django/secret-key"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-region": "${region}",
+                "awslogs-group": "${loggroup}",
+                "awslogs-stream-prefix": "${streamPrefix}"
+            }
+        }
+    }
+]

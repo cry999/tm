@@ -6,12 +6,33 @@ x-mysql-setting: &mysql-setting
   MYSQL_DATABASE: 'tm'
 
 services:
-  db.tasks.tm:
+  app.tasks.tm:
     build:
-      context: ./docker/mysql
+      context: ./src
+    environment:
+      <<: *mysql-setting
+      MYSQL_HOST: db.tasks.tm
+      MYSQL_PORT: 3306
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+    ports:
+      - '8000:8000'
+  db.tasks.tm:
+    image: mysql:8
     environment:
       <<: *mysql-setting
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     ports:
       - '3306:3306'
       - '33060:33060'
+    volumes:
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/data:/var/lib/mysql
+  nginx.tasks.tm:
+    depends_on:
+      - app.tasks.tm
+    build:
+      context: ./docker/nginx
+    environment:
+      APP_HOST: app.tasks.tm
+    ports:
+      - '8080:80'
