@@ -7,22 +7,29 @@
 
   <div>
     <h3>Your tasks</h3>
-    <div>
-      {% for task in tasks %}
-        <div>
-          <div class="card">
-            <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
-            <p>{{ task.status }}</p>
-            <p>{{ task.detail }}</p>
-            <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
+    <div class="task-list">
+      <div class="task-list-tabs">
+        {% for status in statuses %}
+          <a href="{% url 'tasks:index' %}?status={{ status|lower }}">{{ status|upper }}</a>
+        {% endfor %}
+      </div>
+      <div class="task-list-container">
+        {% for task in tasks %}
+          <div>
+            <div class="card">
+              <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
+              <p>{{ task.status }}</p>
+              <p>{{ task.detail }}</p>
+              <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
+            </div>
           </div>
-        </div>
-        {% empty %}
-        <div>
-          <p>No tasks</p>
-          <a href="{% url 'tasks:new' %}">Create a new task!</a>
-        </div>
-      {% endfor %}
+          {% empty %}
+          <div>
+            <p>No tasks</p>
+            <a href="{% url 'tasks:new' %}">Create a new task!</a>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 {% endblock %}
