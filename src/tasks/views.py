@@ -25,9 +25,11 @@ class TaskListView(ListView, LoginRequiredMixin):
         user = self.request.user
         status = self.request.GET.get(self.STATUS_FILTER, Status.WIP)
 
-        return Task.objects.filter(
-            (Q(author=user) | Q(assignee=user)) & Q(status=status)
-        ).all()
+        return (
+            Task.objects.filter((Q(author=user) | Q(assignee=user)) & Q(status=status))
+            .order_by("-priority", "-deadline", "-created_at", "-updated_at")
+            .all()
+        )
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         data = super().get_context_data(**kwargs)
