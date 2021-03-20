@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>Will you delete
+      <b>{{ post.id }}/{{ post.title }}</b>
+      ?
+    </p>
+    <input type="submit" value="DELETE">
+  </form>
+{% endblock %}

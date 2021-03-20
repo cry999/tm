@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div>
+    <h4>My Posts</h4>
+    <div>
+      <a href="{% url 'blog:new' %}">New Post</a>
+    </div>
+    {% for post in posts %}
+      <div class="card">
+        <a href="{% url 'blog:detail' pk=post.id %}">{{ post.title }}</a>
+        <p>{{ post.content }}</p>
+      </div>
+      {% empty %}
+      <div>
+        <p>No Posts...</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

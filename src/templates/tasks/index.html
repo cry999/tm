@@ -8,23 +8,21 @@
   <div>
     <h3>Your tasks</h3>
     <div>
-      {% if tasks %}
+      {% for task in tasks %}
         <div>
-          {% for task in tasks %}
-            <div class="card">
-              <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
-              <p>{{ task.status }}</p>
-              <p>{{ task.detail }}</p>
-              <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
-            </div>
-          {% endfor %}
+          <div class="card">
+            <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
+            <p>{{ task.status }}</p>
+            <p>{{ task.detail }}</p>
+            <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
+          </div>
         </div>
-      {% else %}
+        {% empty %}
         <div>
           <p>No tasks</p>
           <a href="{% url 'tasks:new' %}">Create a new task!</a>
         </div>
-      {% endif %}
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div>
+    <h4>Create a new Post</h4>
+    <form method="post">
+      {% csrf_token %}
+      <table>{{ form.as_table }}</table>
+
+      <div>
+        <a href="{% url 'blog:index' %}">CANCEL</a>
+        <input type="submit" value="NEW POST">
+      </div>
+    </form>
+  </div>
+{% endblock %}
