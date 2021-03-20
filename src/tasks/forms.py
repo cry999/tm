@@ -17,5 +17,6 @@ class EditTaskForm(ModelForm):
             "detail",
             "status",
             "assignee",
+            "priority",
             "deadline",
         )

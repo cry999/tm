@@ -49,6 +49,7 @@ class Task(models.Model):
         null=True,
     )
     deadline = models.DateField(_("deadline"), null=True, blank=True)
+    priority = models.IntegerField(_("work priority"), default=0, blank=True)
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"), auto_now=True)
 
