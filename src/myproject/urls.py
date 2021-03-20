@@ -1,4 +1,4 @@
-"""tm URL Configuration
+"""myproject URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path
 from django.urls.conf import include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("tasks/", include("tasks.urls")),
+    path("accounts/", include("accounts.urls")),
+    path("", lambda request: render(request, "index.html"), name="index"),
 ]

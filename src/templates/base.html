@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyProject</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>MyProject</h1>
+      <ul>
+        {% if user.is_authenticated %}
+          <li>
+            <a href="{% url 'accounts:signout' %}">SIGN OUT</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'accounts:signin' %}">SIGN IN</a>
+          </li>
+          <li>
+            <a href="{% url 'accounts:signup' %}">SIGN UP</a>
+          </li>
+        {% endif %}
+      </ul>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+
+</html>

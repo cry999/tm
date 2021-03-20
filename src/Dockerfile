@@ -15,4 +15,4 @@ RUN apk add --no-cache \
 RUN pip install -r requirements.txt
 RUN ls
 
-ENTRYPOINT [ "gunicorn", "tm.wsgi:application", "-b", "0.0.0.0:8000" ]
+ENTRYPOINT [ "gunicorn", "myproject.wsgi:application", "-b", "0.0.0.0:8000" ]

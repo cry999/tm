@@ -1,38 +1,38 @@
 version: '3.8'
 
 x-mysql-setting: &mysql-setting
-  MYSQL_USER: 'tm-user'
+  MYSQL_USER: 'myproject-user'
   MYSQL_PASSWORD: 'P@ssw0rd'
-  MYSQL_DATABASE: 'tm'
+  MYSQL_DATABASE: 'myproject'
 
 services:
-  app.tasks.tm:
+  app.tasks.myproject:
     build:
       context: ./src
+    command: '--reload'
     environment:
       <<: *mysql-setting
-      MYSQL_HOST: db.tasks.tm
+      MYSQL_HOST: db.tasks.myproject
       MYSQL_PORT: 3306
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-    ports:
-      - '8000:8000'
-  db.tasks.tm:
+    volumes:
+      - "./src:/app"
+  db.tasks.myproject:
     image: mysql:8
     environment:
       <<: *mysql-setting
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     ports:
       - '3306:3306'
-      - '33060:33060'
     volumes:
       - ./docker/mysql/conf.d:/etc/mysql/conf.d
       - ./docker/mysql/data:/var/lib/mysql
-  nginx.tasks.tm:
+  nginx.tasks.myproject:
     depends_on:
-      - app.tasks.tm
+      - app.tasks.myproject
     build:
       context: ./docker/nginx
     environment:
-      APP_HOST: app.tasks.tm
+      APP_HOST: app.tasks.myproject
     ports:
       - '8080:80'
