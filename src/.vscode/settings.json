@@ -3,6 +3,7 @@
     "python.formatting.blackPath": "/Users/takeharakenta/Library/Caches/pypoetry/virtualenvs/task-Tbmljvbd-py3.8/bin/black",
     "files.associations": {
         // "**/templates/**/*.html": "django-html",
+        ".htmlhintrc": "json",
     },
     "[html]": {
         "editor.suggest.insertMode": "replace",

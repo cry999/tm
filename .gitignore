@@ -167,4 +167,5 @@ docker/mysql/data/*
 # Dependencies are managed by Poetry, so requirements.txt is only for production environment
 requirements.txt
 # collected static files for build / deploy stage
-/src/static
+/src/collectstatic
+/docker/nginx/static

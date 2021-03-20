@@ -36,3 +36,5 @@ services:
       APP_HOST: app.tasks.myproject
     ports:
       - '8080:80'
+    volumes:
+      - ./src/collectstatic:/var/www/static
