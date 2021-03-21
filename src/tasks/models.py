@@ -28,6 +28,13 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         related_name="tasks",
     )
+    project = models.ForeignKey(
+        "projects.Project",
+        on_delete=models.SET_NULL,
+        related_name="tasks",
+        null=True,
+        blank=True,
+    )
     name = models.CharField(_("task name"), max_length=256)
     detail = models.TextField(
         _("task detail content"),

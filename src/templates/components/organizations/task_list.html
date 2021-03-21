@@ -1,0 +1,28 @@
+<div class="task-list">
+  <div class="task-list-tabs">
+    <!-- unibeautify:disable -->
+    {% with statuses='TODO WIP DONE' %}
+    <!-- unibeautify:enable -->
+    {% for status in statuses.split %}
+      <a href="{{ request.path }}?status={{ status|lower }}">{{ status|upper }}</a>
+    {% endfor %}
+    {% endwith %}
+  </div>
+  <div class="task-list-container">
+    {% for task in tasks %}
+      <div>
+        <div class="card">
+          <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
+          <p>Status:{{ task.status }}</p>
+          <p>{{ task.detail }}</p>
+          <p>Project:{% firstof task.project "---" %}</p>
+          <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
+        </div>
+      </div>
+      {% empty %}
+      <div>
+        <p>No tasks</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>

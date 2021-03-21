@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.db.models.query_utils import Q
@@ -41,13 +41,30 @@ class NewTaskView(FormView, LoginRequiredMixin):
     template_name = "tasks/new.html"
     form_class = NewTaskForm
 
+    def get_initial(self) -> Dict[str, Any]:
+        initial = super().get_initial()
+
+        project_id = self.get_project_id()
+        if project_id is not None:
+            initial["project"] = project_id
+
+        return initial
+
     def form_valid(self, form: NewTaskForm) -> HttpResponse:
-        new_task = Task.created_by(
-            author=self.request.user,
-            name=form.data["name"],
-        )
+        new_task: Task = form.save(commit=False)
+        new_task.author = self.request.user
         new_task.save()
+
+        project = new_task.project
+        if project is not None:
+            return HttpResponseRedirect(
+                reverse("projects:detail", kwargs={"pk": project.pk}),
+            )
+
         return HttpResponseRedirect(reverse("tasks:index"))
+
+    def get_project_id(self) -> Optional[str]:
+        return self.request.GET.get("project_id", None)
 
 
 class EditTaskView(UpdateView, LoginRequiredMixin):

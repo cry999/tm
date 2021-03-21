@@ -6,13 +6,17 @@ from tasks.models import Task
 class NewTaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ("name",)
+        fields = (
+            "project",
+            "name",
+        )
 
 
 class EditTaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
+            "project",
             "name",
             "detail",
             "status",
