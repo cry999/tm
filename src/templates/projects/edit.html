@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+
+    <a href="{% url 'projects:detail' pk=project.id %}">CANCEL</a>
+    <input type="submit" value="EDIT">
+  </form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div>
+    <h4>Your Projects</h4>
+
+    <div>
+      <a href="{% url 'projects:new' %}">Create a new Project!</a>
+    </div>
+
+    <div>
+      {% for project in projects %}
+        <div class="card">
+          <a href="{% url 'projects:detail' pk=project.id %}">{{ project.name }}</a>
+          <p>{{ project.elevator_pitch }}</p>
+          <p>v{{ project.version }}</p>
+        </div>
+        {% empty %}
+        <div>
+          <p>No projects...</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

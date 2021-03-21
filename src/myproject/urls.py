@@ -23,5 +23,6 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("tasks/", include("tasks.urls")),
     path("blog/", include("blog.urls")),
+    path("projects/", include("projects.urls")),
     path("", lambda request: render(request, "index.html"), name="index"),
 ]

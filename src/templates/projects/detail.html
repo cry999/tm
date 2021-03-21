@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div>
+    <h2>{{ project.name }}</h2>
+    <div>
+      <a href="{% url 'projects:edit' pk=project.id %}">EDIT</a>
+      <a href="{% url 'projects:delete' pk=project.id %}">DELETE</a>
+    </div>
+    <p>
+      <b>Latest Version:</b>
+      {{ project.version }}
+    </p>
+
+    <div>
+      <p>
+        <b>Elevator Pitch</b>
+      </p>
+      <p>{{ project.elevator_pitch }}</p>
+    </div>
+  </div>
+{% endblock %}
