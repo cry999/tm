@@ -1,0 +1,18 @@
+.tag {
+    /* grey-700 */
+    border: solid 1px #616161;
+    color: #616161;
+    /* grey-50 */
+    background-color: #fafafa;
+    border-radius: 20px;
+    width: fit-content;
+    margin: 0px 4px;
+    padding: 0px 4px;
+}
+
+.tag-content {
+    margin: 0px 4px;
+    width: max-content;
+    font-size: 4px;
+    font-weight: bold;
+}
