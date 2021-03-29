@@ -24,6 +24,7 @@
           {% else %}
             <p class="secondary-text">No description.</p>
           {% endif %}
+          <a href="{% url 'tasks:new-subtask' parent_id=task.id %}">SPLIT</a>
           <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
         </div>
       </div>

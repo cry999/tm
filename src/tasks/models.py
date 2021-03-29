@@ -55,6 +55,13 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    parent = models.ForeignKey(
+        "Task",
+        on_delete=models.SET_NULL,
+        related_name="children",
+        null=True,
+        blank=True,
+    )
     deadline = models.DateField(_("deadline"), null=True, blank=True)
     priority = models.IntegerField(_("work priority"), default=0, blank=True)
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
@@ -69,6 +76,12 @@ class Task(models.Model):
             status=Status.TODO,
             deadline=None,
         )
+
+    def create_subtask(self, author: User, name: str) -> "Task":
+        subtask = self.created_by(author, name)
+        subtask.project = self.project
+        subtask.parent = self
+        return subtask
 
     def set_content(self, content: str) -> None:
         self.content = content

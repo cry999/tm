@@ -10,6 +10,8 @@ from django.views.generic.edit import DeleteView, UpdateView
 
 from tasks.forms import EditTaskForm, NewTaskForm
 from tasks.models import Status, Task
+from accounts.models import User
+from projects.models import Project
 
 # Create your views here.
 
@@ -44,15 +46,21 @@ class NewTaskView(FormView, LoginRequiredMixin):
     def get_initial(self) -> Dict[str, Any]:
         initial = super().get_initial()
 
-        project_id = self.get_project_id()
-        if project_id is not None:
-            initial["project"] = project_id
+        parent = self.get_parent()
+        initial["parent"] = parent
+        initial["project"] = parent.project if parent else self.get_project()
 
         return initial
 
     def form_valid(self, form: NewTaskForm) -> HttpResponse:
-        new_task: Task = form.save(commit=False)
-        new_task.author = self.request.user
+        author: User = self.request.user
+        name: str = form.data["name"]
+        parent = self.get_parent(form=form)
+        if parent:
+            new_task = parent.create_subtask(author, name)
+        else:
+            new_task = Task.created_by(author, name)
+            new_task.project = self.get_project(form=form)
         new_task.save()
 
         project = new_task.project
@@ -63,8 +71,39 @@ class NewTaskView(FormView, LoginRequiredMixin):
 
         return HttpResponseRedirect(reverse("tasks:index"))
 
-    def get_project_id(self) -> Optional[str]:
-        return self.request.GET.get("project_id", None)
+    def get_project_id(self, form: NewTaskForm = None) -> Optional[str]:
+        in_path = self.request.GET.get("project_id", None)
+        if in_path:
+            return in_path
+
+        in_form = form and form.data.get("project", None)
+        if in_form:
+            return in_form
+
+        return None
+
+    def get_project(self, form: NewTaskForm = None) -> Optional[Project]:
+        pk = self.get_project_id(form=form)
+        if pk:
+            return Project.objects.get(pk=pk)
+        return None
+
+    def get_parent_id(self, form: NewTaskForm = None) -> Optional[str]:
+        in_path = self.kwargs.get("parent_id", None)
+        if in_path:
+            return in_path
+
+        in_form = form and form.data.get("parent", None)
+        if in_form:
+            return in_form
+
+        return None
+
+    def get_parent(self, form: NewTaskForm = None) -> Optional[Task]:
+        pk = self.get_parent_id(form=form)
+        if pk:
+            return Task.objects.get(pk=pk)
+        return None
 
 
 class EditTaskView(UpdateView, LoginRequiredMixin):
