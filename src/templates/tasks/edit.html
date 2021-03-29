@@ -4,9 +4,21 @@
   <form method="POST">
     {% csrf_token %}
     <table>
-      {{ form.as_table }}
+      <tbody>
+        {% for field in form %}
+          <tr>
+            <th>{{ field.label_tag }}</th>
+            <td>{{ field }}
+              {% if "assignee" == field.name %}
+                <button id="assignme">assign me</button>
+              {% endif %}
+            </td>
+            {{ field.errors }}
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
-
+    <input type="hidden" name="login_user_id" id="login_user_id" value="{{ request.user.id }}">
     <a href="{% url 'tasks:index' %}">CANCEL</a>
     <input type="submit" value="UPDATE">
   </form>
