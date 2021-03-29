@@ -1,0 +1,6 @@
+.tag-list>.tag-wrapper {
+    display: inline-block;
+    width: fit-content;
+    margin-left: 1px;
+    margin-right: 1px;
+}

@@ -1,0 +1,9 @@
+<div class="tag-list">
+  {% for tag in tags %}
+    <div class="tag-wrapper">
+        <!-- unibeautify:disable -->
+        {% include "components/atoms/tag.html" with classes=tag.classes content=tag.content only %}
+        <!-- unibeautify:enable -->
+    </div>
+  {% endfor %}
+</div>

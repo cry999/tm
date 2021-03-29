@@ -1,3 +1,5 @@
+{% load task_tags %}
+
 <div class="task-list">
   <div class="task-list-tabs">
     <!-- unibeautify:disable -->
@@ -13,14 +15,15 @@
         <div class="card">
           <a href="{% url 'tasks:edit' pk=task.id %}">{{ task.name }}</a>
           <div>
-            <div style="display: inline-block;">
-              <!-- unibeautify:disable -->
-              {% include "components/atoms/tag.html" with content="status:"|add:task.status classes="task-status" only %}
-              <!-- unibeautify:enable -->
-            </div>
+            <!-- unibeautify:disable -->
+            {% include "components/molecules/tag_list.html" with tags=task|task_tags only %}
+            <!-- unibeautify:enable -->
           </div>
-          <p>{{ task.detail }}</p>
-          <p>Project:{% firstof task.project "---" %}</p>
+          {% if task.detail %}
+            <p>{{ task.detail }}</p>
+          {% else %}
+            <p class="secondary-text">No description.</p>
+          {% endif %}
           <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
         </div>
       </div>
