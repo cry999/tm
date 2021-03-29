@@ -19,11 +19,13 @@
             {% include "components/molecules/tag_list.html" with tags=task|task_tags only %}
             <!-- unibeautify:enable -->
           </div>
-          {% if task.detail %}
-            <p>{{ task.detail }}</p>
-          {% else %}
-            <p class="secondary-text">No description.</p>
-          {% endif %}
+          <p class="secondary-text">
+            {% if task.detail %}
+              {{ task.detail }}
+            {% else %}
+              No description.
+            {% endif %}
+          </p>
           <a href="{% url 'tasks:new-subtask' parent_id=task.id %}">SPLIT</a>
           <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
         </div>
