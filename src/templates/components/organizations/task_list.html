@@ -27,7 +27,7 @@
             {% endif %}
           </p>
           <a href="{% url 'tasks:new-subtask' parent_id=task.id %}">SPLIT</a>
-          <a href="{% url 'tasks:delete' pk=task.id %}">DELETE</a>
+          <a href="{% url 'tasks:delete' pk=task.id %}?prev={{ request.get_full_path|urlencode }}">DELETE</a>
         </div>
       </div>
       {% empty %}
